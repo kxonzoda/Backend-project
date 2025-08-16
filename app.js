@@ -8,4 +8,4 @@ const app = express()
 
 const PORT = 8080
 
-app.listen(PORT, () => console.log(`Listening - https://localhost:${PORT}`))
+app.listen(PORT, () => console.log(`Listening on - https://localhost:${PORT}`))

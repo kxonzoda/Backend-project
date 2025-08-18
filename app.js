@@ -32,6 +32,8 @@ app.put("/:id", (req, res) => {
     res.json({id, body})
 })
 
+const DB_URL="mongodb+srv://TheFalseGenius:TheFalseGenius@expresscluster.rccvzxi.mongodb.net/?retryWrites=true&w=majority&appName=Expresscluster"
+
 app.listen(PORT, () => {
   console.log(`Listening on - http://localhost:${PORT}`);
 });

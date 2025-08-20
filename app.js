@@ -1,47 +1,24 @@
-// HTTP methods - GET, PUT, POST, DELETE
-
-// http://localhost:8080
-
 require('dotenv').config()
-const express = require("express");
-const app = express();
-const mongoose = require("mongoose");
-const postModel = require("./models/post.model");
 
-app.use(express.json());
+const express = require('express')
+const mongoose = require('mongoose')
+const fileUpload = require("express-fileupload")
+const requestTime = require('./middlewares/request-time')
 
-app.get("/", async (req, res) => {
-  try {
-    const allPosts = await postModel.find()
-    res.status(200).json(allPosts)
-  } catch (error) {
-    res.status(500).json(error)
-  }
-});
+const app = express()
 
-// - GET, PUT, POST, DELETE
-app.post("/", async (req, res) => {
-  try {
-    const { title, body } = req.body;
-    const newPost = await postModel.create({ title, body });
-    res.status(201).json(newPost);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+app.use(requestTime)
+app.use(express.json())
+app.use(express.static("static"))
+app.use(fileUpload({}))
 
-app.delete("/:id", (req, res) => {
-  const { id } = req.params;
-  res.send(id);
-});
 
-app.put("/:id", (req, res) => {
-  const { id } = req.params;
-  const body = req.body;
-  res.json({ id, body });
-});
+// Routes
+app.use('/api/post', require('./router/post.route'))
 
-const PORT = process.env.PORT = 8080
+
+
+const PORT = process.env.PORT || 8080
 
 
 const bootstrap = async () => {
